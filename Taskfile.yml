@@ -1,0 +1,34 @@
+version: '3'
+
+tasks:
+  default:
+    cmds:
+      - task --list
+
+  redis-up:
+    desc: Start Redis container
+    cmds:
+      - docker run -d --name sombra-redis -p 6379:6379 redis:alpine
+    ignore_error: true # Ignore if already exists (might fail though)
+
+  redis-down:
+    desc: Stop and remove Redis container
+    cmds:
+      - docker stop sombra-redis
+      - docker rm sombra-redis
+    ignore_error: true
+
+  build:
+    desc: Build the project
+    cmds:
+      - ./gradlew build
+
+  test:
+    desc: Run tests
+    cmds:
+      - ./gradlew test
+
+  clean:
+    desc: Clean build artifacts
+    cmds:
+      - ./gradlew clean
